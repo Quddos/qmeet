@@ -1,0 +1,13 @@
+{
+  "name": "qmeet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Video meetings with live timed quizzes. Deploys on Vercel.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "check": "node --check api/*.js && node --check lib/*.js"
+  }
+}

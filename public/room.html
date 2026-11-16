@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QMeet · Meeting</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+</head>
+<body class="room-body">
+
+  <!-- ============ Lobby (before joining) ============ -->
+  <section id="lobby" class="lobby hidden">
+    <div class="lobby-card">
+      <div class="lobby-preview">
+        <video id="previewVideo" autoplay muted playsinline></video>
+        <div id="previewOff" class="preview-off hidden">Camera is off</div>
+        <div class="preview-controls">
+          <button id="lobbyMic" class="ctrl" type="button" aria-label="Toggle microphone"><span>🎤</span><span class="lbl">Mic</span></button>
+          <button id="lobbyCam" class="ctrl" type="button" aria-label="Toggle camera"><span>🎥</span><span class="lbl">Camera</span></button>
+        </div>
+      </div>
+      <div class="lobby-form">
+        <h2 id="lobbyTitle">Ready to join?</h2>
+        <p id="lobbyCode" class="muted"></p>
+        <label>Your name
+          <input id="nameInput" maxlength="40" placeholder="Enter your name" autocomplete="name">
+        </label>
+        <div class="row wrap" style="margin-top:12px">
+          <button id="joinBtn" class="btn primary" type="button">Ask to join</button>
+          <a href="/" class="btn ghost">Back</a>
+        </div>
+        <p id="lobbyStatus" class="muted"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Meeting ============ -->
+  <section id="meeting" class="meeting hidden">
+    <header class="topbar">
+      <div class="meta">
+        <strong id="meetingTitle">Meeting</strong>
+        <span id="meetingCode" class="muted small"></span>
+      </div>
+      <div class="row">
+        <span id="clock" class="muted small"></span>
+        <button id="copyBtn" class="btn small ghost" type="button">Copy link</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <main id="stage" class="stage"></main>
+
+      <aside id="side" class="side hidden">
+        <nav class="tabs">
+          <button class="tab active" data-tab="people" type="button">People<span id="peopleBadge" class="badge hidden"></span></button>
+          <button class="tab" data-tab="chat" type="button">Chat</button>
+          <button class="tab" data-tab="quiz" type="button">Quiz</button>
+          <button id="closeSide" class="tab close" type="button" aria-label="Close panel">✕</button>
+        </nav>
+
+        <!-- People -->
+        <section class="panel active" data-panel="people">
+          <div id="hostTools" class="host-tools hidden">
+            <div class="row wrap">
+              <button id="muteAllBtn" class="btn small" type="button">Mute all</button>
+              <button id="admitAllBtn" class="btn small primary hidden" type="button">Admit all</button>
+            </div>
+            <h4>Waiting to join (<span id="waitCount">0</span>)</h4>
+            <ul id="waitList" class="list"></ul>
+          </div>
+          <h4>In this meeting (<span id="peopleCount">0</span>)</h4>
+          <ul id="peopleList" class="list"></ul>
+          <div id="endRow" class="hidden">
+            <button id="endBtn" class="btn small danger" type="button">End meeting for everyone</button>
+          </div>
+        </section>
+
+        <!-- Chat -->
+        <section class="panel" data-panel="chat">
+          <div id="chatLog" class="chat-log"></div>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" maxlength="500" placeholder="Send a message" autocomplete="off">
+            <button class="btn small primary" type="submit">Send</button>
+          </form>
+        </section>
+
+        <!-- Quiz -->
+        <section class="panel" data-panel="quiz">
+          <!-- Students -->
+          <div id="quizStudent" class="hidden" style="display:flex;flex-direction:column;gap:10px;flex:1">
+            <div id="quizCard"></div>
+            <div id="quizFrameWrap" class="frame-wrap hidden">
+              <div class="frame-bar">
+                <span id="quizFrameTitle"></span>
+                <a id="quizNewTab" class="btn small ghost" target="_blank" rel="noopener">New tab</a>
+                <button id="quizFrameClose" class="btn small ghost" type="button">Close</button>
+              </div>
+              <iframe id="quizFrame" title="Quiz" allow="clipboard-write"></iframe>
+            </div>
+          </div>
+
+          <!-- Host -->
+          <div id="quizHost" class="hidden" style="display:flex;flex-direction:column;gap:10px">
+            <h4>Quizzes</h4>
+            <div id="quizList"></div>
+            <details class="builder" open>
+              <summary>+ Create a quiz</summary>
+              <form id="quizForm">
+                <label>Quiz title
+                  <input id="quizTitle" maxlength="150" placeholder="e.g. Chapter 3 check" required>
+                </label>
+                <label>Time limit per student (minutes)
+                  <input id="quizDuration" type="number" min="1" max="180" value="10">
+                </label>
+                <label>Host email (results are sent here)
+                  <input id="quizHostEmail" type="email" placeholder="you@example.com">
+                </label>
+                <label class="check"><input id="quizShowScore" type="checkbox"> Show score to students after they submit</label>
+                <label class="check"><input id="quizAutoEmail" type="checkbox"> Email results automatically when I close the quiz</label>
+                <h4>Questions</h4>
+                <div id="qWrap"></div>
+                <button id="addQBtn" class="btn small ghost" type="button">+ Add question</button>
+                <button class="btn primary" type="submit">Save quiz (draft)</button>
+              </form>
+            </details>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="controls">
+      <button id="micBtn" class="ctrl" type="button"><span>🎤</span><span class="lbl">Mute</span></button>
+      <button id="camBtn" class="ctrl" type="button"><span>🎥</span><span class="lbl">Camera</span></button>
+      <button id="shareBtn" class="ctrl" type="button"><span>🖥️</span><span class="lbl">Present</span></button>
+      <button id="handBtn" class="ctrl" type="button"><span>✋</span><span class="lbl">Raise hand</span></button>
+      <button id="peopleBtn" class="ctrl" type="button"><span>👥</span><span class="lbl">People</span></button>
+      <button id="chatBtn" class="ctrl" type="button"><span>💬</span><span class="lbl">Chat</span></button>
+      <button id="quizBtn" class="ctrl" type="button"><span>📝</span><span class="lbl">Quiz</span></button>
+      <button id="leaveBtn" class="ctrl leave" type="button"><span>📞</span><span class="lbl">Leave</span></button>
+    </footer>
+  </section>
+
+  <div id="errorPage" class="error-page hidden">
+    <div class="card" style="max-width:420px;text-align:center">
+      <h2>Can't open this meeting</h2>
+      <p id="errorText" class="muted"></p>
+      <a href="/" class="btn primary">Go home</a>
+    </div>
+  </div>
+
+  <script type="module" src="/js/room.js"></script>
+</body>
+</html>

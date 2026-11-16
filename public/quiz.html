@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QMeet · Quiz</title>
+  <link rel="stylesheet" href="/css/app.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script>
+</head>
+<body class="quiz-body">
+  <main class="quiz-wrap">
+    <header class="quiz-head">
+      <div>
+        <h1 id="qTitle">Loading quiz…</h1>
+        <div id="qSub" class="muted small"></div>
+      </div>
+      <div class="qright">
+        <span id="qStatus" class="pill">…</span>
+        <span id="qTimer" class="timer hidden">--:--</span>
+      </div>
+    </header>
+
+    <p id="qError" class="notice error hidden"></p>
+
+    <section id="stWait" class="card hidden">
+      <h2>Not open yet</h2>
+      <p class="muted">Your host has not started this quiz. This page updates by itself when it opens.</p>
+    </section>
+
+    <section id="stIdentify" class="card hidden">
+      <h2>Before you start</h2>
+      <form id="idForm">
+        <label>Registration number
+          <input id="regInput" required maxlength="30" autocomplete="off" placeholder="e.g. 2021/CS/001">
+        </label>
+        <label>Full name (optional)
+          <input id="nameInput" maxlength="80" autocomplete="name">
+        </label>
+        <p class="muted small">The timer starts as soon as you press Start. You can submit only once.</p>
+        <p id="idError" class="notice error hidden"></p>
+        <button id="startBtn" class="btn primary" type="submit">Start quiz</button>
+      </form>
+    </section>
+
+    <section id="stQuiz" class="hidden">
+      <div id="qList"></div>
+      <div class="submit-bar card">
+        <span id="progress" class="muted small"></span>
+        <button id="submitBtn" class="btn primary" type="button">Submit answers</button>
+      </div>
+    </section>
+
+    <section id="stDone" class="card hidden">
+      <h2>Submitted ✓</h2>
+      <p id="doneMsg"></p>
+    </section>
+
+    <section id="stClosed" class="card hidden">
+      <h2>Quiz closed</h2>
+      <p id="closedMsg" class="muted">This quiz is no longer accepting answers.</p>
+    </section>
+
+    <footer class="quiz-foot muted small">
+      <a id="openTab" href="#" target="_blank" rel="noopener">Open in a new tab</a>
+    </footer>
+  </main>
+  <script type="module" src="/js/quiz.js"></script>
+</body>
+</html>

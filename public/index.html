@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QMeet · Meetings and quizzes</title>
+  <meta name="description" content="Start a video meeting, admit everyone at once, mute all, and run timed quizzes beside the call.">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <main class="home">
+    <div class="home-wrap">
+      <section class="intro">
+        <div class="brand">QMeet</div>
+        <h1>Video meetings with live quizzes</h1>
+        <p class="muted">Start a meeting, share the link, admit everyone at once, and run timed quizzes that students take right beside the call.</p>
+        <p id="notice" class="notice hidden"></p>
+      </section>
+
+      <section class="card">
+        <h2>New meeting</h2>
+        <label>Your name
+          <input id="hostName" maxlength="40" placeholder="e.g. Dr. Ada" autocomplete="name">
+        </label>
+        <label>Meeting title (optional)
+          <input id="meetingTitle" maxlength="100" placeholder="Week 5 lecture">
+        </label>
+        <button id="startBtn" class="btn primary" type="button">Start meeting</button>
+      </section>
+
+      <section class="card">
+        <h2>Join a meeting</h2>
+        <label>Meeting link or code
+          <input id="joinCode" placeholder="abc-defg-hij" autocomplete="off">
+        </label>
+        <button id="joinBtn" class="btn primary" type="button">Join</button>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/js/index.js"></script>
+</body>
+</html>
