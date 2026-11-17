@@ -16,7 +16,7 @@ Phase 2 rewrite started 2026-11-17: the prototype now lives in `legacy/` and the
 - [ ] Phase 1: inspect repository (done: existing vanilla JS prototype, no Next.js, no auth, no LiveKit, no attendance, no PWA).
 - [x] Phase 2: Next.js 16.4.6 App Router, React 19, TypeScript strict, Tailwind 4, ESLint 9. Typecheck, lint, unit tests (4) and production build pass. Prototype moved to `legacy/` (not deleted). shadcn/ui not yet added.
 - [ ] Phase 3: responsive UI (landing, staff login, student join, admin, teacher, student dashboards).
-- [ ] Phase 4: Supabase migrations for profiles, students, classrooms, enrollments, meetings, participants, attendance, quizzes, recordings, audit logs, with RLS.
+- [~] Phase 4: migrations written and verified on a local PostgreSQL 16 with Supabase-equivalent roles and auth.uid(): `supabase/migrations/0001_core_schema.sql` (all tables from the brief), `0002_rls.sql` (RLS, role guard, column-level PIN hash protection). 30 authorization checks pass (`supabase/tests/rls_test.sql`, run by `scripts/db-test.sh`). NOT yet applied to the Supabase project: no database credentials available here.
 - [ ] Phase 5: staff email/password auth and student registration number + meeting PIN auth.
 - [ ] Phase 6: classroom and meeting management, student CSV/XLSX import.
 - [~] Phase 7: LiveKit integration. Code not started. Blocked on a media server (see docs/UNIVERSITY_SERVER_REQUIREMENTS.md once written) or a relay account.
