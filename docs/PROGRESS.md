@@ -29,6 +29,9 @@ Phase 2 rewrite started 2026-11-17: the prototype now lives in `legacy/` and the
 - [~] Phase 14: production deployment. Blocked by the Vercel provisioning failure.
 - [ ] Phase 15: final verification and readiness report.
 
+## Capacity evidence (2026-11-17)
+- [~] 400 participants: NOT verified. 311 of 400 real WebRTC clients connected on a shared 4-core test VM; details in `docs/LOAD_TEST.md`. Needs a separate client setup and a dedicated media server.
+
 ## External blockers
 1. Vercel provisioning failure on every build (needs Vercel dashboard or support).
 2. Media server for 400 participants: a self-hosted LiveKit server on a machine with a public IP, UDP access and TLS, or a relay service. No server has been provisioned.
