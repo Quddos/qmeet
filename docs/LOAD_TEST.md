@@ -23,9 +23,9 @@ Server CPU stayed at 10–28% and RSS at 0.4–1.0 GB during the tests. The 400 
 - A valid 400 test needs the clients on separate machines from the server, and a server with dedicated CPU, bandwidth and UDP ports.
 
 ## Bandwidth estimate for a 400-person class (server egress)
-- Teacher audio at about 40 kbps plus 320x180 video at about 150 kbps, times 400 viewers: about 80 Mbps.
-- Teacher at 720p at about 1.5 Mbps, times 400 viewers: about 600 Mbps.
-Cloudflare Realtime's free tier (1,000 GB/month) covers about 11 hours of 400-viewer audio+video at 720p per month... check the arithmetic against your real bitrates before choosing.
+- Teacher audio at about 40 kbps plus 320x180 video at about 150 kbps (about 190 kbps per viewer), times 400 viewers: about 76 Mbps, or about 34 GB per hour.
+- Teacher at 720p at about 1.5 Mbps (about 1.5 Mbps per viewer), times 400 viewers: about 600 Mbps, or about 270 GB per hour.
+These are estimates from typical bitrates, not measurements. Cloudflare's free 1,000 GB per month covers about 29 hours of the low-bitrate case, or about 3.7 hours at 720p.
 
 ## Reproduce
 See `tests/load/README.md`.
