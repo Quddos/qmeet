@@ -4,3 +4,9 @@ node_modules/
 .env.*
 !.env.example
 .DS_Store
+.next/
+out/
+next-env.d.ts
+coverage/
+*.tsbuildinfo
+.env*.local

@@ -11,8 +11,10 @@ Last updated: 2026-11-17. Branch: `claude/zealous-galileo-jhmm2e`. Latest commit
 - [!] Peer-to-peer video cannot support 400 participants.
 
 ## Phases from the master brief
+
+Phase 2 rewrite started 2026-11-17: the prototype now lives in `legacy/` and the Next.js app is at the repo root.
 - [ ] Phase 1: inspect repository (done: existing vanilla JS prototype, no Next.js, no auth, no LiveKit, no attendance, no PWA).
-- [ ] Phase 2: Next.js App Router, TypeScript strict, Tailwind, shadcn/ui foundation. Requires a migration away from the current prototype.
+- [x] Phase 2: Next.js 16.4.6 App Router, React 19, TypeScript strict, Tailwind 4, ESLint 9. Typecheck, lint, unit tests (4) and production build pass. Prototype moved to `legacy/` (not deleted). shadcn/ui not yet added.
 - [ ] Phase 3: responsive UI (landing, staff login, student join, admin, teacher, student dashboards).
 - [ ] Phase 4: Supabase migrations for profiles, students, classrooms, enrollments, meetings, participants, attendance, quizzes, recordings, audit logs, with RLS.
 - [ ] Phase 5: staff email/password auth and student registration number + meeting PIN auth.
